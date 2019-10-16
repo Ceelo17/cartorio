@@ -1,29 +1,30 @@
 package com.marcelo.cartorio.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcelo.cartorio.domain.Cartorio;
+import com.marcelo.cartorio.services.CartorioService;
 
 @RestController
 @RequestMapping(value = "/cartorios")
 public class CartorioResource {
 
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Cartorio> listar() {
+	// Controlador REST acessa o serviço
+	@Autowired
+	private CartorioService service;
 
-		Cartorio car1 = new Cartorio(null, "Cartório1");
-		Cartorio car2 = new Cartorio(null, "Cartorio2");
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Cartorio> visualizar(@PathVariable Integer id) {
 
-		List<Cartorio> lista = new ArrayList<>();
-		lista.add(car1);
-		lista.add(car2);
+		Cartorio obj = service.visualizar(id);
 
-		return lista;
+		// Retorna resposta pronta em http
+		return ResponseEntity.ok().body(obj);
 	}
 
 }
