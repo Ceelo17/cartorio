@@ -3,6 +3,7 @@
 
 <html>
 <head>
+<title>Editar Cartório</title>
 </head>
 <body>
 	<h2>Editar Cartório</h2>

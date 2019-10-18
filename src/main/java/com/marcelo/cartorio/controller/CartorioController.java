@@ -25,12 +25,16 @@ public class CartorioController {
 	@Autowired
 	private CartorioService service;
 
+	// Método que Abre o formulário para cadastro
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView cartorio(Model model) {
 		List<Cartorio> listaCartorios = service.findAll();
 		model.addAttribute("cartorios", listaCartorios);
 		return new ModelAndView("cartorioCadastro");
 	}
+
+	// Método que cadastra um cartório
 
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
 	public String cadastrar(@Valid @ModelAttribute("cartorio") Cartorio cartorio, BindingResult result,
@@ -40,6 +44,8 @@ public class CartorioController {
 		return "redirect:/cartorio";
 	}
 
+	// Método que Abre o formulário para listagem
+
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(@Valid @ModelAttribute("cartorio") Cartorio cartorio, BindingResult result, ModelMap model) {
 		List<Cartorio> listaCartorios = service.findAll();
@@ -47,12 +53,16 @@ public class CartorioController {
 		return "cartorioLista";
 	}
 
+	// Método que Abre o formulário para atualização
+
 	@RequestMapping(value = "/atualizarForm/{id}")
 	public String atualizaForm(@PathVariable("id") Integer id, Model model) {
 		Cartorio cartorio = service.visualizar(id);
 		model.addAttribute("cartorio", cartorio);
 		return "cartorioAtualiza";
 	}
+
+	// Método que atualiza um cartório
 
 	@RequestMapping(value = "/atualizar/{id}", method = RequestMethod.POST)
 	public String atualizar(@PathVariable("id") Integer id, @Valid Cartorio cartorio, BindingResult result,
@@ -66,6 +76,8 @@ public class CartorioController {
 		model.addAttribute("cartorios", service.findAll());
 		return "redirect:/cartorio";
 	}
+
+	// Método que deleta um cartório
 
 	@RequestMapping(value = "/{id}/deletar", method = RequestMethod.GET)
 	public String deletar(@PathVariable Integer id) {

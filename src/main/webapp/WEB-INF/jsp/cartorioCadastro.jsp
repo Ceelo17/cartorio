@@ -1,43 +1,48 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <html>
 <head>
-<title>spring boot form submit example</title>
+<title>Cadastro de Cartórios</title>
 </head>
 <body>
 	<h2>Cadastro de Cartórios</h2>
-	<div>
-		<form method="post" action="cartorio/cadastrar">
-			Nome: <input type="text" name="nome" /> <input type="submit"
-				value="Submit">
-		</form>
-	</div>
 
-	<h3>Lista de Cartórios</h3>
 	<div>
-		<table>
-			<tr>
-				<th>Id</th>
-				<th>Nome</th>
-			</tr>
-			<!-- loop over and print our customers -->
-			<c:forEach var="cartorio" items="${cartorios}">
-				<tr>
-					<td><c:out value="${cartorio.id}"></c:out></td>
-					<td><c:out value="${cartorio.nome}"></c:out></td>
+		<div>
+			<form method="post" action="cartorio/cadastrar">
+				Nome: <input type="text" name="nome"
+					placeholder="Digite o nome do cartório" required="required" /> <input
+					type="submit" value="Submit">
+			</form>
+		</div>
 
-					<td><a href="/cartorio/atualizarForm/${cartorio.id}">
-							<button type="submit" class="btn btn-primary">Edit User</button>
-					</a></td>
-					<td><a href="/cartorio/${cartorio.id}/deletar">
-							<button type="submit" class="btn btn-primary">Delete
-								User</button>
-					</a></td>
-				</tr>
-			</c:forEach>
-		</table>
+		<h3>
+			<a href="/cartorio/listar">Lista de Cartórios</a>
+		</h3>
+		<div>
+			<div>
+				<table border="1">
+					<c:forEach var="cartorio" items="${cartorios}">
+						<tr>
+							<th>Id:</th>
+							<td><c:out value="${cartorio.id}"></c:out></td>
+
+
+							<th>Nome:</th>
+							<td><c:out value="${cartorio.nome}"></c:out></td>
+
+							<td><a href="/cartorio/atualizarForm/${cartorio.id}">
+									<button type="submit" class="btn btn-primary">Editar</button>
+							</a></td>
+							<td><a href="/cartorio/${cartorio.id}/deletar">
+									<button type="submit">Deletar</button>
+							</a></td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

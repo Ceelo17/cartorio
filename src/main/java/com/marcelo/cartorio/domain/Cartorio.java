@@ -2,12 +2,15 @@ package com.marcelo.cartorio.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "T_CARTORIO")
 public class Cartorio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +18,8 @@ public class Cartorio implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(name = "nm_cartorio", nullable = false)
 	private String nome;
 
 	public Cartorio() {
