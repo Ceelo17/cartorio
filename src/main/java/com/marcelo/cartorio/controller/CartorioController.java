@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,30 +19,58 @@ import com.marcelo.cartorio.domain.Cartorio;
 import com.marcelo.cartorio.services.CartorioService;
 
 @Controller
+@RequestMapping("/cartorio")
 public class CartorioController {
 
 	@Autowired
 	private CartorioService service;
 
-	@RequestMapping(value = "/cartorioCadastro")
-	public ModelAndView formulario(Model model) {
-		model.addAttribute("msg", "a jar packaging example");
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ModelAndView cartorio(Model model) {
+		List<Cartorio> listaCartorios = service.findAll();
+		model.addAttribute("cartorios", listaCartorios);
 		return new ModelAndView("cartorioCadastro");
 	}
 
-	@RequestMapping(value = "/cadastrarCartorio", method = RequestMethod.POST)
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
 	public String cadastrar(@Valid @ModelAttribute("cartorio") Cartorio cartorio, BindingResult result,
 			ModelMap model) {
 		model.addAttribute("name", cartorio.getNome());
 		service.criar(cartorio);
-		return "cartorioCadastro";
+		return "redirect:/cartorio";
 	}
 
-	@RequestMapping(value = "/listarCartorio", method = RequestMethod.GET)
+	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(@Valid @ModelAttribute("cartorio") Cartorio cartorio, BindingResult result, ModelMap model) {
 		List<Cartorio> listaCartorios = service.findAll();
-		model.addAttribute("cartorios",listaCartorios);
+		model.addAttribute("cartorios", listaCartorios);
 		return "cartorioLista";
+	}
+
+	@RequestMapping(value = "/atualizarForm/{id}")
+	public String atualizaForm(@PathVariable("id") Integer id, Model model) {
+		Cartorio cartorio = service.visualizar(id);
+		model.addAttribute("cartorio", cartorio);
+		return "cartorioAtualiza";
+	}
+
+	@RequestMapping(value = "/atualizar/{id}", method = RequestMethod.POST)
+	public String atualizar(@PathVariable("id") Integer id, @Valid Cartorio cartorio, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			cartorio.setId(id);
+			return "cartorioCadastro";
+		}
+
+		service.update(cartorio);
+		model.addAttribute("cartorios", service.findAll());
+		return "redirect:/cartorio";
+	}
+
+	@RequestMapping(value = "/{id}/deletar", method = RequestMethod.GET)
+	public String deletar(@PathVariable Integer id) {
+		service.Excluir(id);
+		return "redirect:/cartorio";
 	}
 
 }

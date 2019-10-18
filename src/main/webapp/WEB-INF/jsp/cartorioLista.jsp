@@ -1,23 +1,28 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
-<head>
-<title>Reading List</title>
-</head>
 <body>
-	<h2>Lista de Cartorios</h2>
-	<table>
-		<tr>
-			<th>Id</th>
-			<th>Nome</th>
-		</tr>
-		<c:forEach items="${cartorios}" var="cartorio">
+	<div>
+		<table>
 			<tr>
-				<td>${cartorio.id}</td>
-				<td>${cartorio.nome}</td>
+				<th>Id</th>
+				<th>Nome</th>
 			</tr>
-		</c:forEach>
-	</table>
+			<!-- loop over and print our customers -->
+			<c:forEach var="cartorio" items="${cartorios}">
+				<tr>
+					<td><c:out value="${cartorio.nome}"></c:out></td>
+					<td><a href="/cartorio/${cartorio.id}/atualizarForm">
+							<button type="submit" class="btn btn-primary">Edit User</button>
+					</a></td>
+					<td><a href="/cartorio/${cartorio.id}/deletar">
+							<button type="submit" class="btn btn-primary">Delete
+								User</button>
+					</a></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>
 </html>
